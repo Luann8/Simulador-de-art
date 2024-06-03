@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de ART em PDF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4; /* Cor de fundo clara */
+    }
+    
+    h1, h2 {
+      color: #333; /* Cor de texto escura */
+      margin-bottom: 20px;
+    }
+    
+    p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .form-box {
+      flex: 1 0 300px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input[type="text"],
+    input[type="radio"],
+    select {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    
+    input[type="radio"] {
+      margin-right: 5px;
+
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+    
+    hr {
+      margin: 20px 0;
+      border: 1px solid #ccc;
+    }
+    
+    /* Cores do Crea-RJ */
+    
+    .crea-primary {
+      color: #fff;
+      background-color: #007bff;
+    }
+    
+    .crea-secondary {
+      color: #fff;
+      background-color: #6c757d;
+    }
+    
+    .crea-border {
+      border: 1px solid #007bff;
+    }
+    
+    /* Botão de gerar PDF (exemplo) */
+    
+    .btn-gerar-pdf {
+      display: block;
+      width: 20%;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    
+    .btn-gerar-pdf:hover {
+      background-color: #0056b3;
+    }
+
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px; /* Espaçamento entre as caixas */
+    }
+    .form-box {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-sizing: border-box; /* Considera a borda e o preenchimento na largura total */
+    }
+  
+
+    
+  </style>
+</head>
+<body>
+  <form id="art-form">
+    <p><strong>Número da ART (CREA-RJ):</strong> <input type="text" name="numero_art" required></p>
+    <br>
+
+  <br>
+  <div class="form-container">
+    <!-- Tipo de ART -->
+    <div class="form-box">
+      <h2>Tipo de ART</h2>
+      <p><input type="radio" name="tipo_art" value="permanente" required> Obra ou serviço</p>
+      <p><input type="radio" name="tipo_art" value="eventual" required> Desempenho de cargo ou função</p>
+      <p><input type="radio" name="tipo_art" value="multipla" required> Múltipla</p>
+    </div>
+      
+    <!-- Motivo do registro -->
+    <div class="form-box">
+      <h2>Motivo do registro</h2>
+      <p><input type="radio" name="motivo_registro" value="novo_contrato" required> Novo contrato</p>
+      <p><input type="radio" name="motivo_registro" value="oficio_notificacao" required> Ofício/notificação</p>
+      <p><input type="radio" name="motivo_registro" value="regularizacao_obra" required> Regularização da obra/serviço em andamento com autuação</p>
+      <p><input type="radio" name="motivo_registro" value="exigencia" required> Exigência de</p>
+      <p><input type="radio" name="motivo_registro" value="autovistoria_predial" required> Autovistoria predial lei 6400/13</p>
+      <p><input type="radio" name="motivo_registro" value="vistoria_gas" required> Vistoria de gás 6890/13</p>
+      <p><input type="radio" name="motivo_registro" value="renovacao_contrato" required> Renovação do contrato</p>
+    </div>
+    
+    <!-- Formação de registro -->
+    <div class="form-box">
+      <h2>Formação de registro</h2>
+      <p><input type="radio" name="formacao_registro" value="inicial" required> Inicial</p>
+      <p><input type="radio" name="formacao_registro" value="completar" required> Completar</p>
+      <p><input type="radio" name="formacao_registro" value="substituicao" required> Substituição</p>
+      <p>N da art principal da forma de registro: <input type="text" name="art_principal" required></p>
+    </div>
+    
+    <!-- Participação técnica -->
+    <div class="form-box">
+      <h2>Participação técnica</h2>
+      <p><input type="radio" name="participacao_tecnica" value="individual" required> Individual</p>
+      <p><input type="radio" name="participacao_tecnica" value="coautor" required> Coautor</p>
+      <p><input type="radio" name="participacao_tecnica" value="correspondente" required> Correspondente</p>
+      <p><input type="radio" name="participacao_tecnica" value="equipe" required> Equipe</p>
+    </div>
+  </div>
+
+  <h2>Responsável Técnico</h2>
+  
+  <table id="dados-responsavel">
+    <tr>
+      <th>1 n do registro do profissional</th>
+      <th>2 nome do profissional</th>
+    </tr>
+    <tr>
+      <td><input type="text" name="nome_responsavel" required></td>
+      <td><input type="text" name="crea_responsavel" required></td>
+    </tr>
+  </table>
+
+  4 há prof. co-responsavel?<input type="radio" name="tipo_art" value="permanente" required Inicial> sim <input type="radio" name="tipo_art" value="permanente" required> não
+  5 há prof empr.vinculaada?<input type="radio" name="tipo_art" value="permanente" required Inicial> sim <input type="radio" name="tipo_art" value="permanente" required> não</label for=""></label>
+  6 cod entidade de classe (tab1) <input type="text" name="entidade_classe" required>
+  <br>
+  <table id="dados-responsavel">
+
+<tr>
+  <th>7 n do registro da empresa</th>
+  <th>8 nome da empresa</th>
+</tr>
+<tr>
+  <td><input type="text" name="nome_responsavel" required></td>
+  <td><input type="text" name="crea_responsavel" required></td></th>
+</tr>
+  </table>
+
+<hr>
+<h2>Contratante</h2>
+
+CNPJ/CPF: <input type="text" name="cnpj_contratante" required>
+9 nome do Contratante: <input type="text" name="nome_contratante" required>
+<br>
+<br>
+10.cep <input type="text" name="cep_contratante" required>
+11.logradouro <input type="text" name="endereco_contratante" required>
+Endereço <input type="text" name="endereco_contratante" required>
+numbero <input type="text" name="numero_contratante" required>
+complemento <input type="text" name="complemento_contratante" required>
+<br>
+
+14.Estado <label for="estado_contratante"></label>
+13.Municipio <label for="municipio_contratante"></label>
+12.bairro <input type="text" name="bairro_contratante" required>
+
+<p></p>
+<hr>
+<h2>Dados do contraato e da obra/serviço</h2>
+
+
+ação institucional <input type="text" name="acao_institucional" required>
+16. ramo(tab2) <input type="text" name="ramo_contratante" required>
+<br>
+<br>
+
+15. n do contrato <input type="text" name="numero_contrato" required>
+17. atividades-tecnicas res218 (taab.3) <input type="text" name="atividades_tecnicas" required>
+18. especificação da Atividade (Tab 4) <input type="text" name="especificacao_contrato" required>
+19. Complemento (Tab 5) <input type="text" name="complemento_contrato" required>
+20. quantidade <input type="text" name="quantidade_contrato" required>
+21. n pavts <input type="text" name="unidade_contrato" required>
+22. data de inicio <input type="text" name="data_inicio_contrato" required>
+23.Prazo de Contrato
+<label for="prazo_contrato_mes">Meses:</label>
+<input type="number" id="prazo_contrato_mes" name="prazo_contrato_mes" required min="0">
+<label for="prazo_contrato_dias">Dias:</label>
+<input type="number" id="prazo_contrato_dias" name="prazo_contrato_dias" required min="0">
+24. n hh / j.t <input type="text" name="hh_contrato" required>
+25.valor do contrato <input type="text" name="hh_contrato" required>
+
+finalidade<input type="text" name="finalidade_contrato" required>
+
+codico da obra <input type="text" name="codigo_obra" required>
+
+
+CNPJ/CPF: <input type="text" name="cnpj_contratante" required>
+9 nome do Contratante: <input type="text" name="nome_contratante" required>
+<br>
+<br>
+27. Descrição / informações complementares
+<br>
+<br>
+10.cep <input type="text" name="cep_contratante" required>
+11.logradouro <input type="text" name="endereco_contratante" required>
+Endereço <input type="text" name="endereco_contratante" required>
+numbero <input type="text" name="numero_contratante" required>
+complemento <input type="text" name="complemento_contratante" required>
+<br>
+
+<p>
+  <label for="estado_contratante">14.Estado:</label>
+  <select name="estado_contratante" id="estado_contratante" required>
+    <option value="">Selecione o estado</option>
+    <option value="RJ" selected>Rio de Janeiro</option>
+    <!-- Adicione aqui outros estados se necessário -->
+  </select>
+
+  <label for="municipio_contratante">13. Município:</label>
+  <select name="municipio_contratante" id="municipio_contratante" required>
+    <option value="">Selecione o município</option>
+    <option value="Rio de Janeiro" selected>Rio de Janeiro</option>
+    <!-- Adicione aqui outros municípios do Rio de Janeiro se necessário -->
+  </select>
+</p>
+12.bairro <input type="text" name="bairro_contratante" required>
+
+    <!-- Botão para gerar PDF -->
+    <button type="submit" class="btn-gerar-pdf">Gerar PDF</button>
+  </form>
+<script>
+  document.getElementById('art-form').addEventListener('submit', function(event) {
+    // Verifica se os campos obrigatórios estão preenchidos
+    if (!this.checkValidity()) {
+      // Se não estiverem preenchidos, evita o envio do formulário
+      event.preventDefault();
+      // Exibe um popup de alerta
+      alert('Por favor, preencha todos os campos obrigatórios.');
+    }
+  });
+</script>
+
+</body>
+</html>
+
